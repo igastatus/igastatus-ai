@@ -149,6 +149,9 @@ body {
     height: 100%;
     object-fit: cover;
     object-position: center;
+    /* Performance optimization */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .hero-overlay {
@@ -559,6 +562,62 @@ body {
     font-size: 14px;
 }
 
+/* Loading Placeholder Styles */
+.lazy-load-container,
+.lazy-load-widget {
+    position: relative;
+    min-height: 400px;
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.lazy-load-container[data-loaded="true"] .loading-placeholder,
+.lazy-load-widget[data-loaded="true"] .loading-placeholder {
+    display: none;
+}
+
+.loading-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(0, 169, 224, 0.05), rgba(0, 195, 137, 0.05));
+    z-index: 10;
+}
+
+.loading-placeholder p {
+    margin-top: 20px;
+    color: var(--secondary-color);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(0, 169, 224, 0.2);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Loaded iframe styles */
+.lazy-iframe {
+    width: 100%;
+    border: none;
+    display: block;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .nav-container {
@@ -611,6 +670,33 @@ body {
     .footer-content {
         flex-direction: column;
         text-align: center;
+    }
+    
+    /* Mobile optimizations for lazy loading */
+    .lazy-load-container {
+        min-height: 300px;
+    }
+    
+    .lazy-load-widget {
+        min-height: 350px;
+    }
+    
+    .map-container iframe {
+        height: 500px !important;
+    }
+    
+    .weather-map iframe {
+        height: 400px !important;
+    }
+    
+    .loading-placeholder p {
+        font-size: 14px;
+    }
+    
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 3px;
     }
 }
 

@@ -3,8 +3,102 @@ document.addEventListener('DOMContentLoaded', function() {
     initClock();
     initFlightStats();
     initScrollEffects();
+    initLazyLoading();
     initLiveATC();
 });
+
+// Lazy Loading with Intersection Observer
+function initLazyLoading() {
+    const lazyLoadOptions = {
+        root: null,
+        rootMargin: '200px', // Start loading 200px before element is visible
+        threshold: 0.01
+    };
+
+    // Lazy load iframe containers
+    const lazyContainers = document.querySelectorAll('.lazy-load-container');
+    const containerObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const container = entry.target;
+                const src = container.getAttribute('data-src');
+                
+                if (src && !container.getAttribute('data-loaded')) {
+                    // Determine height based on container
+                    let height = '700';
+                    if (container.classList.contains('weather-map')) {
+                        height = '500';
+                    }
+                    
+                    const iframe = document.createElement('iframe');
+                    iframe.src = src;
+                    iframe.width = '100%';
+                    iframe.height = height;
+                    iframe.frameBorder = '0';
+                    iframe.classList.add('lazy-iframe');
+                    iframe.title = container.closest('section').querySelector('.section-title').textContent;
+                    
+                    // Add iframe after loading placeholder
+                    container.appendChild(iframe);
+                    container.setAttribute('data-loaded', 'true');
+                    
+                    // Remove placeholder after iframe loads
+                    iframe.addEventListener('load', () => {
+                        setTimeout(() => {
+                            const placeholder = container.querySelector('.loading-placeholder');
+                            if (placeholder) {
+                                placeholder.style.opacity = '0';
+                                placeholder.style.transition = 'opacity 0.3s';
+                                setTimeout(() => placeholder.remove(), 300);
+                            }
+                        }, 500);
+                    });
+                    
+                    observer.unobserve(container);
+                }
+            }
+        });
+    }, lazyLoadOptions);
+
+    lazyContainers.forEach(container => containerObserver.observe(container));
+
+    // Lazy load flight widgets
+    const lazyWidgets = document.querySelectorAll('.lazy-load-widget');
+    const widgetObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const widget = entry.target;
+                const airport = widget.getAttribute('data-airport');
+                const type = widget.getAttribute('data-type');
+                
+                if (airport && type && !widget.getAttribute('data-loaded')) {
+                    // Create script element
+                    const script = document.createElement('script');
+                    script.src = `https://fids.flightradar.live/widgets/airport/${airport}/${type}`;
+                    script.async = true;
+                    
+                    script.addEventListener('load', () => {
+                        setTimeout(() => {
+                            const placeholder = widget.querySelector('.loading-placeholder');
+                            if (placeholder) {
+                                placeholder.style.opacity = '0';
+                                placeholder.style.transition = 'opacity 0.3s';
+                                setTimeout(() => placeholder.remove(), 300);
+                            }
+                        }, 1000);
+                    });
+                    
+                    widget.appendChild(script);
+                    widget.setAttribute('data-loaded', 'true');
+                    
+                    observer.unobserve(widget);
+                }
+            }
+        });
+    }, lazyLoadOptions);
+
+    lazyWidgets.forEach(widget => widgetObserver.observe(widget));
+}
 
 // Real-time clock
 function initClock() {

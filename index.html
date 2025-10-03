@@ -7,6 +7,20 @@
     <meta name="google-adsense-account" content="ca-pub-2431689993523630">
     <title>IGASTATUS | Istanbul Airport Flight Tracker and Live Air Traffic</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- DNS Prefetch & Preconnect for faster loading -->
+    <link rel="dns-prefetch" href="https://api.checkwx.com">
+    <link rel="dns-prefetch" href="https://fids.flightradar.live">
+    <link rel="dns-prefetch" href="https://www.radarbox.com">
+    <link rel="dns-prefetch" href="https://embed.windy.com">
+    <link rel="dns-prefetch" href="https://www.liveatc.net">
+    <link rel="dns-prefetch" href="https://widgets.skyscanner.net">
+    <link rel="dns-prefetch" href="https://www.igairport.aero">
+    <link rel="dns-prefetch" href="https://images.pexels.com">
+    
+    <link rel="preconnect" href="https://api.checkwx.com" crossorigin>
+    <link rel="preconnect" href="https://fids.flightradar.live" crossorigin>
+    
     <link rel="stylesheet" href="css/style.css">
     
     <!-- Google Analytics -->
@@ -21,8 +35,8 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2431689993523630" crossorigin="anonymous"></script>
     
-    <!-- CheckWX API -->
-    <script src="https://api.checkwx.com/widget?key=575d925deae5b5572edb19ebbe&refresh=15" type="text/javascript"></script>
+    <!-- CheckWX API - Defer Loading -->
+    <script src="https://api.checkwx.com/widget?key=575d925deae5b5572edb19ebbe&refresh=15" type="text/javascript" defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -55,7 +69,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-background">
-            <img src="https://images.pexels.com/photos/33551296/pexels-photo-33551296.jpeg" alt="Istanbul Airport">
+            <img src="https://images.pexels.com/photos/33551296/pexels-photo-33551296.jpeg" alt="Istanbul Airport" loading="eager">
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -78,14 +92,11 @@
                     <h2 class="section-title">Live Flight Tracking</h2>
                     <div class="section-divider"></div>
                 </div>
-                <div class="map-container">
-                    <iframe 
-                        src="https://www.radarbox.com/?widget=1&z=8&lat=40.77217805733707&lng=31.373081156372056" 
-                        width="100%" 
-                        height="700" 
-                        frameborder="0"
-                        title="Istanbul Airport Live Flight Map">
-                    </iframe>
+                <div class="map-container lazy-load-container" data-src="https://www.radarbox.com/?widget=1&z=8&lat=40.77217805733707&lng=31.373081156372056">
+                    <div class="loading-placeholder">
+                        <div class="spinner"></div>
+                        <p>Loading live flight map...</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -144,13 +155,11 @@
                     <h2 class="section-title">Weather Conditions</h2>
                     <div class="section-divider"></div>
                 </div>
-                <div class="weather-map">
-                    <iframe 
-                        width="100%" 
-                        height="500"
-                        src="https://embed.windy.com/embed2.html?lat=41.264&lon=28.726&zoom=11&level=surface&overlay=gust&menu=&message=true&marker=true&calendar=&pressure=true&type=map&location=coordinates&detail=true&detailLat=41.261&detailLon=28.711&metricWind=default&metricTemp=default&radarRange=-1"
-                        frameborder="0">
-                    </iframe>
+                <div class="weather-map lazy-load-container" data-src="https://embed.windy.com/embed2.html?lat=41.264&lon=28.726&zoom=11&level=surface&overlay=gust&menu=&message=true&marker=true&calendar=&pressure=true&type=map&location=coordinates&detail=true&detailLat=41.261&detailLon=28.711&metricWind=default&metricTemp=default&radarRange=-1">
+                    <div class="loading-placeholder">
+                        <div class="spinner"></div>
+                        <p>Loading weather map...</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -165,14 +174,20 @@
                 <div class="flights-grid">
                     <div class="flight-card">
                         <h3 class="flight-title">Arrivals</h3>
-                        <div class="flight-widget">
-                            <script async src="https://fids.flightradar.live/widgets/airport/IST/arrivals"></script>
+                        <div class="flight-widget lazy-load-widget" data-airport="IST" data-type="arrivals">
+                            <div class="loading-placeholder">
+                                <div class="spinner"></div>
+                                <p>Loading arrivals...</p>
+                            </div>
                         </div>
                     </div>
                     <div class="flight-card">
                         <h3 class="flight-title">Departures</h3>
-                        <div class="flight-widget">
-                            <script async src="https://fids.flightradar.live/widgets/airport/IST/departures"></script>
+                        <div class="flight-widget lazy-load-widget" data-airport="IST" data-type="departures">
+                            <div class="loading-placeholder">
+                                <div class="spinner"></div>
+                                <p>Loading departures...</p>
+                            </div>
                         </div>
                     </div>
                 </div>
