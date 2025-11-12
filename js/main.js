@@ -1,110 +1,18 @@
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    initClock();
-    initFlightStats();
-    initScrollEffects();
-    initLazyLoading();
-    initLiveATC();
-});
+// ====================================
+// IGASTATUS - Main JavaScript
+// Istanbul Airport Flight Tracker
+// ====================================
 
-// Lazy Loading with Intersection Observer
-function initLazyLoading() {
-    const lazyLoadOptions = {
-        root: null,
-        rootMargin: '200px', // Start loading 200px before element is visible
-        threshold: 0.01
-    };
+(function() {
+    'use strict';
 
-    // Lazy load iframe containers
-    const lazyContainers = document.querySelectorAll('.lazy-load-container');
-    const containerObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const container = entry.target;
-                const src = container.getAttribute('data-src');
-                
-                if (src && !container.getAttribute('data-loaded')) {
-                    // Determine height based on container
-                    let height = '700';
-                    if (container.classList.contains('weather-map')) {
-                        height = '500';
-                    }
-                    
-                    const iframe = document.createElement('iframe');
-                    iframe.src = src;
-                    iframe.width = '100%';
-                    iframe.height = height;
-                    iframe.frameBorder = '0';
-                    iframe.classList.add('lazy-iframe');
-                    iframe.title = container.closest('section').querySelector('.section-title').textContent;
-                    
-                    // Add iframe after loading placeholder
-                    container.appendChild(iframe);
-                    container.setAttribute('data-loaded', 'true');
-                    
-                    // Remove placeholder after iframe loads
-                    iframe.addEventListener('load', () => {
-                        setTimeout(() => {
-                            const placeholder = container.querySelector('.loading-placeholder');
-                            if (placeholder) {
-                                placeholder.style.opacity = '0';
-                                placeholder.style.transition = 'opacity 0.3s';
-                                setTimeout(() => placeholder.remove(), 300);
-                            }
-                        }, 500);
-                    });
-                    
-                    observer.unobserve(container);
-                }
-            }
-        });
-    }, lazyLoadOptions);
+    // ====================================
+    // Local Time Display
+    // ====================================
+    function updateLocalTime() {
+        const timeElement = document.getElementById('local-time');
+        if (!timeElement) return;
 
-    lazyContainers.forEach(container => containerObserver.observe(container));
-
-    // Lazy load flight widgets
-    const lazyWidgets = document.querySelectorAll('.lazy-load-widget');
-    const widgetObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const widget = entry.target;
-                const airport = widget.getAttribute('data-airport');
-                const type = widget.getAttribute('data-type');
-                
-                if (airport && type && !widget.getAttribute('data-loaded')) {
-                    // Create script element
-                    const script = document.createElement('script');
-                    script.src = `https://fids.flightradar.live/widgets/airport/${airport}/${type}`;
-                    script.async = true;
-                    
-                    script.addEventListener('load', () => {
-                        setTimeout(() => {
-                            const placeholder = widget.querySelector('.loading-placeholder');
-                            if (placeholder) {
-                                placeholder.style.opacity = '0';
-                                placeholder.style.transition = 'opacity 0.3s';
-                                setTimeout(() => placeholder.remove(), 300);
-                            }
-                        }, 1000);
-                    });
-                    
-                    widget.appendChild(script);
-                    widget.setAttribute('data-loaded', 'true');
-                    
-                    observer.unobserve(widget);
-                }
-            }
-        });
-    }, lazyLoadOptions);
-
-    lazyWidgets.forEach(widget => widgetObserver.observe(widget));
-}
-
-// Real-time clock
-function initClock() {
-    const clockElement = document.getElementById('local-time');
-    
-    function updateClock() {
         const now = new Date();
         const options = {
             timeZone: 'Europe/Istanbul',
@@ -113,136 +21,323 @@ function initClock() {
             second: '2-digit',
             hour12: false
         };
-        clockElement.textContent = now.toLocaleTimeString('en-US', options);
+
+        const istanbulTime = now.toLocaleTimeString('en-US', options);
+        timeElement.textContent = istanbulTime;
     }
-    
-    updateClock();
-    setInterval(updateClock, 1000);
-}
 
-// Flight statistics
-function initFlightStats() {
-    // Simulate real-time flight counts
-    // In production, these would come from an API
-    const arrivalsElement = document.getElementById('arrivals-count');
-    const departuresElement = document.getElementById('departures-count');
-    
-    // Random numbers for demo - replace with actual API calls
-    const arrivals = Math.floor(Math.random() * 100) + 300;
-    const departures = Math.floor(Math.random() * 100) + 300;
-    
-    animateCounter(arrivalsElement, 0, arrivals, 2000);
-    animateCounter(departuresElement, 0, departures, 2000);
-    
-    // Update every 5 minutes
-    setInterval(() => {
-        const newArrivals = Math.floor(Math.random() * 100) + 300;
-        const newDepartures = Math.floor(Math.random() * 100) + 300;
-        animateCounter(arrivalsElement, arrivals, newArrivals, 1000);
-        animateCounter(departuresElement, departures, newDepartures, 1000);
-    }, 300000);
-}
+    // Update time every second
+    updateLocalTime();
+    setInterval(updateLocalTime, 1000);
 
-// Counter animation
-function animateCounter(element, start, end, duration) {
-    const range = end - start;
-    const increment = range / (duration / 16);
-    let current = start;
-    
-    const timer = setInterval(() => {
-        current += increment;
-        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
-            current = end;
-            clearInterval(timer);
-        }
-        element.textContent = Math.floor(current);
-    }, 16);
-}
+    // ====================================
+    // Lazy Loading for Heavy Widgets
+    // ====================================
+    const lazyLoadObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const container = entry.target;
+                const src = container.getAttribute('data-src');
 
-// Scroll effects
-function initScrollEffects() {
-    // Navbar background on scroll
-    const navbar = document.querySelector('.navbar');
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        }
+                if (src && !container.querySelector('iframe')) {
+                    // Create and insert iframe
+                    const iframe = document.createElement('iframe');
+                    iframe.src = src;
+                    iframe.width = '100%';
+                    iframe.height = '100%';
+                    iframe.frameBorder = '0';
+                    iframe.loading = 'lazy';
+                    iframe.setAttribute('importance', 'low');
+
+                    // Remove loading placeholder
+                    const placeholder = container.querySelector('.loading-placeholder');
+                    if (placeholder) {
+                        placeholder.style.opacity = '0';
+                        placeholder.style.transition = 'opacity 0.3s';
+
+                        setTimeout(() => {
+                            container.innerHTML = '';
+                            container.appendChild(iframe);
+                        }, 300);
+                    } else {
+                        container.appendChild(iframe);
+                    }
+
+                    observer.unobserve(container);
+                }
+            }
+        });
+    }, {
+        rootMargin: '200px' // Increased for better mobile experience
     });
-    
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
+
+    // Observe all lazy-load containers
+    document.querySelectorAll('.lazy-load-container').forEach(container => {
+        lazyLoadObserver.observe(container);
+    });
+
+    // ====================================
+    // Lazy Loading for Flight Widgets
+    // ====================================
+    const flightWidgetObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const widget = entry.target;
+                const airport = widget.getAttribute('data-airport');
+                const type = widget.getAttribute('data-type');
+
+                if (airport && type && !widget.querySelector('script')) {
+                    // Create and insert flight widget script
+                    const script = document.createElement('script');
+                    script.src = `https://fids.flightradar.live/widgets/airport/${airport}/${type}`;
+                    script.async = true;
+
+                    script.onload = () => {
+                        const placeholder = widget.querySelector('.loading-placeholder');
+                        if (placeholder) {
+                            placeholder.style.display = 'none';
+                        }
+                    };
+
+                    widget.appendChild(script);
+                    observer.unobserve(widget);
+                }
+            }
+        });
+    }, {
+        rootMargin: '200px'
+    });
+
+    // Observe all flight widgets
+    document.querySelectorAll('.lazy-load-widget').forEach(widget => {
+        flightWidgetObserver.observe(widget);
+    });
+
+    // ====================================
+    // Smooth Scroll for Navigation
+    // ====================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === '#') return;
+
+            e.preventDefault();
+            const target = document.querySelector(href);
+
+            if (target) {
+                const navHeight = document.querySelector('.navbar').offsetHeight;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // ====================================
+    // Navbar Scroll Effect - Optimized for Mobile
+    // ====================================
+    let lastScroll = 0;
+    let ticking = false;
+    const navbar = document.querySelector('.navbar');
+
+    // Check if on mobile
+    const isMobile = () => window.innerWidth <= 768;
+
+    function updateNavbar(currentScroll) {
+        if (currentScroll <= 0) {
+            navbar.classList.remove('navbar-scrolled');
+            navbar.style.transform = 'translateY(0)';
+            navbar.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+        } else {
+            navbar.classList.add('navbar-scrolled');
+            navbar.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.15)';
+
+            // On mobile, hide navbar when scrolling down, show when scrolling up
+            if (isMobile()) {
+                if (currentScroll > lastScroll && currentScroll > 100) {
+                    // Scrolling down & past threshold - hide navbar
+                    navbar.style.transform = 'translateY(-100%)';
+                } else if (currentScroll < lastScroll) {
+                    // Scrolling up - show navbar
+                    navbar.style.transform = 'translateY(0)';
+                }
+            }
+        }
+
+        lastScroll = currentScroll;
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                updateNavbar(currentScroll);
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+
+    // ====================================
+    // Flight Count Estimation
+    // ====================================
+    function estimateFlightCounts() {
+        const arrivalsElement = document.getElementById('arrivals-count');
+        const departuresElement = document.getElementById('departures-count');
+
+        if (!arrivalsElement || !departuresElement) return;
+
+        // Istanbul Airport handles approximately 500-600 flights per day
+        const now = new Date();
+        const hourOfDay = now.getHours();
+
+        // Peak hours: 6-10 and 18-22
+        let baseFlights = 250;
+        if ((hourOfDay >= 6 && hourOfDay <= 10) || (hourOfDay >= 18 && hourOfDay <= 22)) {
+            baseFlights = 350;
+        } else if (hourOfDay >= 0 && hourOfDay <= 5) {
+            baseFlights = 150;
+        }
+
+        const arrivals = baseFlights + Math.floor(Math.random() * 50);
+        const departures = baseFlights + Math.floor(Math.random() * 50);
+
+        animateValue(arrivalsElement, 0, arrivals, 2000);
+        animateValue(departuresElement, 0, departures, 2000);
+    }
+
+    // ====================================
+    // Animate Number Counter
+    // ====================================
+    function animateValue(element, start, end, duration) {
+        let startTimestamp = null;
+
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const value = Math.floor(progress * (end - start) + start);
+            element.textContent = value;
+
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+
+        window.requestAnimationFrame(step);
+    }
+
+    // Initial flight count estimation
+    estimateFlightCounts();
+
+    // Update flight counts every 5 minutes
+    setInterval(estimateFlightCounts, 5 * 60 * 1000);
+
+    // ====================================
+    // Airport Status Check
+    // ====================================
+    function checkAirportStatus() {
+        const statusBadge = document.querySelector('.status-badge');
+        const statusText = document.querySelector('.status-text');
+        const statusIcon = document.querySelector('.status-icon');
+
+        if (!statusBadge || !statusText || !statusIcon) return;
+
+        // Istanbul Airport operates 24/7, but activity varies
+        const now = new Date();
+        const hour = now.getHours();
+
+        if (hour >= 1 && hour <= 5) {
+            statusText.textContent = 'Low Activity';
+            statusIcon.textContent = '🌙';
+            statusBadge.style.background = 'linear-gradient(135deg, #f39c12, #e67e22)';
+        } else {
+            statusText.textContent = 'Airport Operational';
+            statusIcon.textContent = '✈️';
+            statusBadge.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+        }
+    }
+
+    checkAirportStatus();
+    setInterval(checkAirportStatus, 10 * 60 * 1000); // Check every 10 minutes
+
+    // ====================================
+    // Performance Monitoring
+    // ====================================
+    if ('PerformanceObserver' in window) {
+        // Monitor Largest Contentful Paint (LCP)
+        const lcpObserver = new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            const lastEntry = entries[entries.length - 1];
+            console.log('LCP:', lastEntry.renderTime || lastEntry.loadTime);
+        });
+
+        try {
+            lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+        } catch (e) {
+            console.warn('LCP observation not supported');
+        }
+    }
+
+    // ====================================
+    // Error Handling for External Resources
+    // ====================================
+    window.addEventListener('error', (e) => {
+        if (e.target.tagName === 'IFRAME') {
+            console.warn('Failed to load iframe:', e.target.src);
+            const container = e.target.parentElement;
+            if (container && container.classList.contains('lazy-load-container')) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'loading-placeholder';
+                placeholder.innerHTML = '<p style="color: #ef4444;">Failed to load content. Please refresh the page.</p>';
+                container.innerHTML = '';
+                container.appendChild(placeholder);
+            }
+        }
+    }, true);
+
+    // ====================================
+    // Intersection Observer for Scroll Animations
+    // ====================================
+    const animationObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
             }
         });
-    }, observerOptions);
-    
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    // Add animation classes to sections
     document.querySelectorAll('.section').forEach(section => {
         section.style.opacity = '0';
         section.style.transform = 'translateY(30px)';
-        section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        observer.observe(section);
+        section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        animationObserver.observe(section);
     });
-}
 
-// Auto-play Live ATC
-function initLiveATC() {
-    // Wait for the embed to load and try to auto-play
-    setTimeout(() => {
-        const atcEmbed = document.querySelector('.atc-container embed');
-        if (atcEmbed) {
-            // Try to find and click play button if available
-            try {
-                const contentWindow = atcEmbed.contentWindow || atcEmbed.contentDocument;
-                if (contentWindow) {
-                    const playButton = contentWindow.document.querySelector('button[aria-label="Play"]') || 
-                                     contentWindow.document.querySelector('.play-button');
-                    if (playButton) {
-                        playButton.click();
-                    }
-                }
-            } catch (e) {
-                // Cross-origin restriction, can't auto-play
-                console.log('ATC auto-play not available due to cross-origin restrictions');
-            }
-        }
-    }, 3000);
-}
+    // ====================================
+    // Console Welcome Message
+    // ====================================
+    console.log('%cIGASTATUS', 'font-size: 24px; font-weight: bold; color: #e74c3c;');
+    console.log('%cIstanbul Airport Live Status', 'font-size: 14px; color: #6b7280;');
+    console.log('%cMade with ❤️ for Aviation Enthusiasts', 'font-size: 12px; color: #f39c12;');
+    console.log('%cGitHub: https://github.com/igastatus/igastatus-ai', 'font-size: 11px; color: #6b7280;');
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Handle CheckWX widget initialization
-window.addEventListener('load', () => {
-    // CheckWX widgets will auto-initialize with their script
-    console.log('CheckWX widgets loaded');
-});
-
-// Error handling for external scripts
-window.addEventListener('error', (e) => {
-    // Silently handle external script errors
-    if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'IFRAME') {
-        e.preventDefault();
+    // ====================================
+    // Debug Mode
+    // ====================================
+    if (window.location.search.includes('debug=true')) {
+        document.body.style.border = '3px solid red';
+        console.log('Debug mode enabled');
+        console.log('Lazy load containers:', document.querySelectorAll('.lazy-load-container').length);
+        console.log('Flight widgets:', document.querySelectorAll('.lazy-load-widget').length);
     }
-}, true);
+
+})();

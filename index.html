@@ -2,16 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <meta name="description" content="Istanbul Airport (IGA) Live Flight Status, METAR, TAF, and Real-time Flight Tracking">
+    <meta name="keywords" content="IST Airport, Istanbul Airport, IGA Airport, Flight Tracker, METAR, TAF, Live Flights, LTFM">
+    <meta name="author" content="IGASTATUS">
     <meta name="google-adsense-account" content="ca-pub-2431689993523630">
+    <meta name="theme-color" content="#e74c3c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>IGASTATUS | Istanbul Airport Flight Tracker and Live Air Traffic</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     
     <!-- DNS Prefetch & Preconnect for faster loading -->
     <link rel="dns-prefetch" href="https://api.checkwx.com">
     <link rel="dns-prefetch" href="https://fids.flightradar.live">
-    <link rel="dns-prefetch" href="https://www.radarbox.com">
+    <link rel="dns-prefetch" href="https://www.flightradar24.com">
     <link rel="dns-prefetch" href="https://embed.windy.com">
     <link rel="dns-prefetch" href="https://www.liveatc.net">
     <link rel="dns-prefetch" href="https://widgets.skyscanner.net">
@@ -69,12 +74,36 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-background">
-            <img src="https://images.pexels.com/photos/33551296/pexels-photo-33551296.jpeg" alt="Istanbul Airport" loading="eager">
+            <picture>
+                <source media="(max-width: 640px)" srcset="https://images.pexels.com/photos/33551296/pexels-photo-33551296.jpeg?auto=compress&cs=tinysrgb&w=640&h=960">
+                <source media="(max-width: 1024px)" srcset="https://images.pexels.com/photos/33551296/pexels-photo-33551296.jpeg?auto=compress&cs=tinysrgb&w=1024&h=768">
+                <img src="https://images.pexels.com/photos/33551296/pexels-photo-33551296.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900" alt="Istanbul Airport" loading="eager" decoding="async">
+            </picture>
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
+            <svg class="hero-logo" width="120" height="120" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- IST Airport Logo -->
+                <circle cx="100" cy="100" r="95" fill="white" fill-opacity="0.15" stroke="white" stroke-width="2"/>
+                <text x="100" y="110" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">IST</text>
+                <text x="100" y="145" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" opacity="0.9">LTFM</text>
+            </svg>
             <h1 class="hero-title">Istanbul Airport</h1>
-            <p class="hero-subtitle">Real-time Flight Information & Live Status</p>
+            <p class="hero-subtitle">Real-time Flight Information & Live Status | Istanbul, Turkey</p>
+            <div class="hero-info">
+                <div class="info-card">
+                    <span class="info-label">ICAO</span>
+                    <span class="info-value">LTFM</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">IATA</span>
+                    <span class="info-value">IST</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">Elevation</span>
+                    <span class="info-value">325 ft</span>
+                </div>
+            </div>
             <div class="hero-scroll">
                 <span>Scroll to explore</span>
                 <div class="scroll-indicator"></div>
@@ -84,15 +113,44 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        
+
+        <!-- Quick Info Section -->
+        <section class="section quick-info">
+            <div class="container">
+                <div class="quick-cards">
+                    <div class="quick-card">
+                        <div class="card-icon">🛬</div>
+                        <h3>Live Arrivals</h3>
+                        <p>Track incoming flights in real-time</p>
+                    </div>
+                    <div class="quick-card">
+                        <div class="card-icon">🛫</div>
+                        <h3>Live Departures</h3>
+                        <p>Monitor outgoing flights live</p>
+                    </div>
+                    <div class="quick-card">
+                        <div class="card-icon">🌤️</div>
+                        <h3>Weather Info</h3>
+                        <p>METAR & TAF reports updated</p>
+                    </div>
+                    <div class="quick-card">
+                        <div class="card-icon">📡</div>
+                        <h3>Live ATC</h3>
+                        <p>Listen to Ground & Tower</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Live Flight Map Section -->
         <section class="section" id="flight-map">
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">Live Flight Tracking</h2>
                     <div class="section-divider"></div>
+                    <p class="section-subtitle">Real-time aircraft positions around Istanbul Airport</p>
                 </div>
-                <div class="map-container lazy-load-container" data-src="https://www.radarbox.com/?widget=1&z=8&lat=40.77217805733707&lng=31.373081156372056">
+                <div class="map-container lazy-load-container" data-src="https://www.flightradar24.com/simple_index.php?lat=41.27&lon=28.75&z=9">
                     <div class="loading-placeholder">
                         <div class="spinner"></div>
                         <p>Loading live flight map...</p>
@@ -107,6 +165,7 @@
                 <div class="section-header">
                     <h2 class="section-title">METAR & TAF Information</h2>
                     <div class="section-divider"></div>
+                    <p class="section-subtitle">Current weather observations and forecasts for LTFM</p>
                 </div>
                 <div class="weather-grid">
                     <div class="weather-card">
@@ -154,6 +213,7 @@
                 <div class="section-header">
                     <h2 class="section-title">Weather Conditions</h2>
                     <div class="section-divider"></div>
+                    <p class="section-subtitle">Live weather radar and wind conditions</p>
                 </div>
                 <div class="weather-map lazy-load-container" data-src="https://embed.windy.com/embed2.html?lat=41.264&lon=28.726&zoom=11&level=surface&overlay=gust&menu=&message=true&marker=true&calendar=&pressure=true&type=map&location=coordinates&detail=true&detailLat=41.261&detailLon=28.711&metricWind=default&metricTemp=default&radarRange=-1">
                     <div class="loading-placeholder">
@@ -170,10 +230,13 @@
                 <div class="section-header">
                     <h2 class="section-title">Arrivals & Departures</h2>
                     <div class="section-divider"></div>
+                    <p class="section-subtitle">Live flight information boards</p>
                 </div>
                 <div class="flights-grid">
                     <div class="flight-card">
-                        <h3 class="flight-title">Arrivals</h3>
+                        <div class="flight-header">
+                            <h3 class="flight-title">🛬 Arrivals</h3>
+                        </div>
                         <div class="flight-widget lazy-load-widget" data-airport="IST" data-type="arrivals">
                             <div class="loading-placeholder">
                                 <div class="spinner"></div>
@@ -182,7 +245,9 @@
                         </div>
                     </div>
                     <div class="flight-card">
-                        <h3 class="flight-title">Departures</h3>
+                        <div class="flight-header">
+                            <h3 class="flight-title">🛫 Departures</h3>
+                        </div>
                         <div class="flight-widget lazy-load-widget" data-airport="IST" data-type="departures">
                             <div class="loading-placeholder">
                                 <div class="spinner"></div>
@@ -198,19 +263,22 @@
         <section class="section" id="charts">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Airport Charts</h2>
+                    <h2 class="section-title">Airport Charts & Navigation</h2>
                     <div class="section-divider"></div>
+                    <p class="section-subtitle">Official navigation charts for LTFM</p>
                 </div>
                 <div class="charts-grid">
                     <a href="charts/LTFMCHART2024.pdf" class="chart-card" target="_blank">
                         <div class="chart-icon">📄</div>
-                        <h3>LTFM Charts 2024-2025</h3>
-                        <p>Download Airport Navigation Charts</p>
+                        <h3>LTFM Charts 2024</h3>
+                        <p>Current navigation charts for Istanbul Airport</p>
+                        <div class="chart-badge">Latest</div>
                     </a>
                     <a href="charts/LTFMCHART2023.pdf" class="chart-card" target="_blank">
                         <div class="chart-icon">📄</div>
                         <h3>LTFM Charts 2023</h3>
-                        <p>Download Airport Navigation Charts</p>
+                        <p>Previous year navigation charts for reference</p>
+                        <div class="chart-badge">Archive</div>
                     </a>
                 </div>
             </div>
@@ -222,10 +290,20 @@
                 <div class="section-header">
                     <h2 class="section-title">Live ATC Audio</h2>
                     <div class="section-divider"></div>
-                    <p class="section-subtitle">LTFM (Currently LTBA) Ground/Tower ATC</p>
+                    <p class="section-subtitle">LTFM Ground & Tower Communications</p>
                 </div>
                 <div class="atc-container">
-                    <embed src="https://www.liveatc.net/embed/feed/ltba_s-html5.html" width="400" height="150">
+                    <div class="atc-card">
+                        <div class="atc-info">
+                            <h3>🎧 Ground/Tower</h3>
+                            <p>Listen to live air traffic control communications</p>
+                            <div class="frequency-info">
+                                <span class="freq-label">Frequency:</span>
+                                <span class="freq-value">Available on LiveATC</span>
+                            </div>
+                        </div>
+                        <embed src="https://www.liveatc.net/embed/feed/ltba_s-html5.html" width="100%" height="150">
+                    </div>
                 </div>
             </div>
         </section>
@@ -234,8 +312,9 @@
         <section class="section" id="search">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Search Flights</h2>
+                    <h2 class="section-title">Search & Book Flights</h2>
                     <div class="section-divider"></div>
+                    <p class="section-subtitle">Find the best deals for your next adventure</p>
                 </div>
                 <div class="search-container">
                     <div data-skyscanner-widget="SearchWidget" data-origin-geo-lookup="true"></div>
