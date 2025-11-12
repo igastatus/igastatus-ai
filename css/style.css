@@ -371,6 +371,7 @@ body {
 }
 
 .quick-card {
+    display: block;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -379,6 +380,7 @@ body {
     padding: 32px;
     text-align: center;
     color: var(--text-light);
+    text-decoration: none;
     transition: var(--transition);
     cursor: pointer;
 }
@@ -387,6 +389,10 @@ body {
     transform: translateY(-8px);
     box-shadow: var(--shadow-xl);
     background: rgba(255, 255, 255, 0.15);
+}
+
+.quick-card:active {
+    transform: translateY(-4px);
 }
 
 .card-icon {
