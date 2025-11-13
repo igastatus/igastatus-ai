@@ -119,59 +119,9 @@
     <!-- Main Content -->
     <main class="main-content">
 
-        <!-- Quick Info Section -->
-        <section class="section quick-info">
-            <div class="container">
-                <div class="quick-cards">
-                    <a href="#flights" class="quick-card">
-                        <div class="card-icon">🛬</div>
-                        <h3>Live Arrivals</h3>
-                        <p>Track incoming flights in real-time</p>
-                    </a>
-                    <a href="#flights" class="quick-card">
-                        <div class="card-icon">🛫</div>
-                        <h3>Live Departures</h3>
-                        <p>Monitor outgoing flights live</p>
-                    </a>
-                    <a href="#metar-taf" class="quick-card">
-                        <div class="card-icon">🌤️</div>
-                        <h3>Weather Info</h3>
-                        <p>METAR & TAF reports updated</p>
-                    </a>
-                    <a href="#atc" class="quick-card">
-                        <div class="card-icon">📡</div>
-                        <h3>Live ATC</h3>
-                        <p>Listen to Ground & Tower</p>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Live Flight Map Section -->
-        <section class="section" id="flight-map">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Live Flight Tracking</h2>
-                    <div class="section-divider"></div>
-                    <p class="section-subtitle">Real-time aircraft positions around Istanbul Airport</p>
-                </div>
-                <div class="map-container lazy-load-container" data-src="https://www.airnavradar.com/?widget=1&z=10&lat=41.06911&lon=28.7419&lng=28.60673">
-                    <div class="loading-placeholder">
-                        <div class="spinner"></div>
-                        <p>Loading live flight map...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Live Airport Activity Dashboard -->
         <section class="section activity-dashboard">
             <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Live Airport Activity</h2>
-                    <div class="section-divider"></div>
-                    <p class="section-subtitle">Real-time operational data and airport status</p>
-                </div>
                 <div class="dashboard-grid">
                     <div class="dashboard-card">
                         <div class="card-icon">✈️</div>
@@ -232,6 +182,23 @@
                         <div class="congestion-meter">
                             <div class="meter-bar" id="congestion-bar"></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Flight Map Section -->
+        <section class="section" id="flight-map">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Live Flight Tracking</h2>
+                    <div class="section-divider"></div>
+                    <p class="section-subtitle">Real-time aircraft positions around Istanbul Airport</p>
+                </div>
+                <div class="map-container lazy-load-container" data-src="https://www.airnavradar.com/?widget=1&z=10&lat=41.06911&lon=28.7419&lng=28.60673">
+                    <div class="loading-placeholder">
+                        <div class="spinner"></div>
+                        <p>Loading live flight map...</p>
                     </div>
                 </div>
             </div>
