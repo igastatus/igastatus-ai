@@ -331,6 +331,71 @@
     console.log('%cGitHub: https://github.com/igastatus/igastatus-ai', 'font-size: 11px; color: #6b7280;');
 
     // ====================================
+    // Live Activity Dashboard
+    // ====================================
+    function updateActivityDashboard() {
+        const now = new Date();
+        const hour = now.getHours();
+
+        // Aircraft in air (simulated)
+        const aircraftInAir = Math.floor(15 + Math.random() * 15 + (hour >= 6 && hour <= 22 ? 10 : 0));
+        animateValue(document.getElementById('aircraft-in-air'), 0, aircraftInAir, 1500);
+
+        // Hourly arrivals/departures
+        let baseRate = 15;
+        if ((hour >= 6 && hour <= 10) || (hour >= 18 && hour <= 22)) baseRate = 28;
+        else if (hour >= 0 && hour <= 5) baseRate = 8;
+
+        const arrivals = baseRate + Math.floor(Math.random() * 8);
+        const departures = baseRate + Math.floor(Math.random() * 8);
+        animateValue(document.getElementById('hourly-arrivals'), 0, arrivals, 1500);
+        animateValue(document.getElementById('hourly-departures'), 0, departures, 1500);
+
+        // Wind (simulated)
+        const windSpeed = Math.floor(5 + Math.random() * 15);
+        const windDeg = Math.floor(Math.random() * 360);
+        animateValue(document.getElementById('wind-speed'), 0, windSpeed, 1500);
+
+        const windArrow = document.getElementById('wind-arrow');
+        if (windArrow) {
+            windArrow.style.transform = `translate(-50%, -100%) rotate(${windDeg}deg)`;
+        }
+
+        const windDir = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][Math.floor(windDeg / 45)];
+        const windDirection = document.getElementById('wind-direction');
+        if (windDirection) windDirection.textContent = `Direction: ${windDir} (${windDeg}°)`;
+
+        // Active runways based on wind
+        const runways = document.querySelectorAll('.runway');
+        runways.forEach(rw => rw.classList.remove('active'));
+
+        if (windDeg >= 135 && windDeg <= 315) {
+            // South wind - use 35L/35R
+            document.querySelectorAll('[data-runway="35L"], [data-runway="35R"]').forEach(r => r.classList.add('active'));
+        } else {
+            // North wind - use 17L/17R
+            document.querySelectorAll('[data-runway="17L"], [data-runway="17R"]').forEach(r => r.classList.add('active'));
+        }
+
+        // Terminal congestion
+        const congestionLevels = ['Low', 'Normal', 'Moderate', 'High'];
+        let congestionIndex = 1; // Normal
+        if ((hour >= 7 && hour <= 9) || (hour >= 17 && hour <= 19)) congestionIndex = 2;
+        else if (hour >= 0 && hour <= 5) congestionIndex = 0;
+
+        const congestionLevel = document.getElementById('congestion-level');
+        const congestionBar = document.getElementById('congestion-bar');
+        if (congestionLevel) congestionLevel.textContent = congestionLevels[congestionIndex];
+        if (congestionBar) congestionBar.style.width = `${(congestionIndex + 1) * 25}%`;
+    }
+
+    // Initial update
+    if (document.querySelector('.activity-dashboard')) {
+        updateActivityDashboard();
+        setInterval(updateActivityDashboard, 60000); // Update every minute
+    }
+
+    // ====================================
     // Debug Mode
     // ====================================
     if (window.location.search.includes('debug=true')) {
