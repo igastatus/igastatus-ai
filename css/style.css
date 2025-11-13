@@ -1148,6 +1148,31 @@ body {
         display: none;
     }
 
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .dashboard-card {
+        padding: 12px;
+    }
+
+    .dashboard-card .card-icon {
+        font-size: 24px;
+    }
+
+    .dashboard-card .card-value {
+        font-size: 20px;
+    }
+
+    .flight-stat .stat-value {
+        font-size: 18px;
+    }
+
+    .flight-stat .stat-icon {
+        font-size: 18px;
+    }
+
     .section {
         padding: 40px 0;
     }
@@ -1310,51 +1335,26 @@ body {
    ==================================== */
 .activity-dashboard {
     background: linear-gradient(135deg, #f8f9fa 0%, #e8eef3 100%);
-    padding: 32px 0;
-}
-
-.activity-dashboard .container {
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary-color) #e5e7eb;
-}
-
-.activity-dashboard .container::-webkit-scrollbar {
-    height: 6px;
-}
-
-.activity-dashboard .container::-webkit-scrollbar-track {
-    background: #e5e7eb;
-    border-radius: 3px;
-}
-
-.activity-dashboard .container::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 3px;
+    padding: 24px 0;
 }
 
 .dashboard-grid {
-    display: flex;
-    gap: 16px;
-    min-width: max-content;
-    padding-bottom: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
 }
 
 .dashboard-card {
     background: white;
     border-radius: var(--radius);
-    padding: 20px 24px;
+    padding: 16px;
     box-shadow: var(--shadow);
     transition: var(--transition);
     border: 2px solid transparent;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     text-align: left;
-    min-width: 240px;
-    flex-shrink: 0;
 }
 
 .dashboard-card:hover {
@@ -1364,7 +1364,7 @@ body {
 }
 
 .dashboard-card .card-icon {
-    font-size: 36px;
+    font-size: 28px;
     opacity: 0.9;
     flex-shrink: 0;
 }
@@ -1377,16 +1377,15 @@ body {
 }
 
 .dashboard-card .card-label {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    white-space: nowrap;
 }
 
 .dashboard-card .card-value {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 900;
     color: var(--primary-color);
     font-family: 'Arial', sans-serif;
@@ -1394,9 +1393,47 @@ body {
 }
 
 .dashboard-card .card-sublabel {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-muted);
-    white-space: nowrap;
+}
+
+/* Flights Card */
+.flights-card .card-content {
+    width: 100%;
+}
+
+.flights-row {
+    display: flex;
+    justify-content: space-around;
+    gap: 8px;
+}
+
+.flight-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+}
+
+.flight-stat .stat-icon {
+    font-size: 20px;
+}
+
+.flight-stat .stat-value {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--primary-color);
+    font-family: 'Arial', sans-serif;
+}
+
+.flight-stat .stat-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    text-align: center;
 }
 
 /* Wind Compass */
@@ -1451,16 +1488,16 @@ body {
 .runway-visual {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin: 8px 0;
+    gap: 6px;
+    margin: 6px 0 0 0;
 }
 
 .runway {
-    padding: 10px 8px;
+    padding: 6px;
     background: #e5e7eb;
     border-radius: var(--radius-sm);
     font-weight: 700;
-    font-size: 14px;
+    font-size: 11px;
     color: #6b7280;
     transition: var(--transition);
     text-align: center;
