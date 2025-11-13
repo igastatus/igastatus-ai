@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>IGASTATUS | Istanbul Airport Flight Tracker and Live Air Traffic</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
+
     <!-- DNS Prefetch & Preconnect for faster loading -->
     <link rel="dns-prefetch" href="https://api.checkwx.com">
     <link rel="dns-prefetch" href="https://fids.flightradar.live">
@@ -22,11 +22,19 @@
     <link rel="dns-prefetch" href="https://widgets.skyscanner.net">
     <link rel="dns-prefetch" href="https://www.igairport.aero">
     <link rel="dns-prefetch" href="https://i.postimg.cc">
-    
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://cdnjs.buymeacoffee.com">
+
     <link rel="preconnect" href="https://api.checkwx.com" crossorigin>
     <link rel="preconnect" href="https://fids.flightradar.live" crossorigin>
-    
-    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="css/style.min.css" as="style">
+    <link rel="stylesheet" href="css/style.min.css">
+
+    <!-- Preload critical JavaScript -->
+    <link rel="modulepreload" href="js/main.min.js">
     
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-B5MKS76S1B"></script>
@@ -74,7 +82,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-background">
-            <img src="https://i.postimg.cc/Y26TbXyV/david-syphers-4Sq3-3o-Ec-N0-unsplash.jpg" alt="Istanbul Airport - Turkish Airlines A321 Landing" loading="eager" decoding="async" fetchpriority="high">
+            <img src="https://i.postimg.cc/Y26TbXyV/david-syphers-4Sq3-3o-Ec-N0-unsplash.jpg" alt="Istanbul Airport - Turkish Airlines A321 Landing" loading="eager" decoding="async" fetchpriority="high" width="1920" height="1080">
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -326,7 +334,10 @@
         <div class="container">
             <div class="tribute-footer">
                 <div class="tribute-image-small">
-                    <img src="images/ataturk-aviation.jpg" alt="Mustafa Kemal Atatürk - Aviation Pioneer" loading="lazy">
+                    <picture>
+                        <source srcset="images/ataturk-aviation.webp" type="image/webp">
+                        <img src="images/ataturk-aviation.jpg" alt="Mustafa Kemal Atatürk - Aviation Pioneer" loading="lazy" width="200" height="250">
+                    </picture>
                 </div>
                 <div class="tribute-text-small">
                     <p><strong>Mustafa Kemal Atatürk (1881-1938)</strong></p>
@@ -361,6 +372,6 @@
     <!-- Buy Me a Coffee Widget -->
     <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="anldrms" data-description="Support me on Buy me a coffee!" data-message="Hi, I'm Anıl! I run igastatus.com and sawstatus.com with a passion for aviation. You can support me by buying a coffee! ☕✈️" data-color="#40DCA5" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
-    <script src="js/main.js"></script>
+    <script src="js/main.min.js"></script>
 </body>
 </html>
