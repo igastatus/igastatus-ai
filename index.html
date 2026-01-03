@@ -7,7 +7,8 @@
     <meta name="keywords" content="IST Airport, Flight Tracker, METAR, TAF, LTFM, Spotter Guide">
     <meta name="author" content="IST Flight Watch">
     <meta name="google-adsense-account" content="ca-pub-2431689993523630">
-    <meta name="theme-color" content="#3498db"> <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#3498db"> 
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>IST Flight Watch | Unofficial Istanbul Airport Tracker</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -38,6 +39,7 @@
     <script src="https://api.checkwx.com/widget?key=575d925deae5b5572edb19ebbe&refresh=15" type="text/javascript" defer></script>
 
     <style>
+        /* Yasal Uyarı Barı */
         .disclaimer-bar {
             background-color: #e74c3c;
             color: white;
@@ -48,8 +50,49 @@
             position: relative;
             z-index: 9999;
         }
-        .nav-logo img { display: none; } /* Eski logo gizlendi */
+        
+        /* Logo Düzenlemesi */
+        .nav-logo img { display: none; } 
         .new-logo-icon { font-size: 24px; margin-right: 10px; }
+
+        /* --- DÜZELTME BAŞLANGICI: Hero Info Kartları --- */
+        /* O "LTFM, IST" yazan kutuların görünür olması için burayı ekledim */
+        .hero-info {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .info-card {
+            background: rgba(0, 0, 0, 0.6); /* Yarı saydam siyah arka plan */
+            backdrop-filter: blur(5px); /* Buzlu cam efekti */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px 20px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .info-label {
+            display: block;
+            color: #bdc3c7; /* Etiket için açık gri */
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .info-value {
+            display: block;
+            color: #ffffff; /* Değerler için tam beyaz */
+            font-size: 18px;
+            font-weight: 700;
+        }
+        /* --- DÜZELTME BİTİŞİ --- */
     </style>
 </head>
 <body>
@@ -98,6 +141,7 @@
         <div class="hero-content">
             <h1 class="hero-title">Istanbul Airport Tracking</h1>
             <p class="hero-subtitle">Unofficial Flight Information & Weather for Aviation Enthusiasts</p>
+            
             <div class="hero-info">
                 <div class="info-card">
                     <span class="info-label">ICAO</span>
@@ -112,6 +156,7 @@
                     <span class="info-value">325 ft</span>
                 </div>
             </div>
+
             <div class="hero-scroll">
                 <span>Scroll to explore</span>
                 <div class="scroll-indicator"></div>
