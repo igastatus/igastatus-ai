@@ -3,40 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <meta name="description" content="Istanbul Airport (IGA) Live Flight Status, METAR, TAF, and Real-time Flight Tracking">
-    <meta name="keywords" content="IST Airport, Istanbul Airport, IGA Airport, Flight Tracker, METAR, TAF, Live Flights, LTFM">
-    <meta name="author" content="IGASTATUS">
+    <meta name="description" content="Unofficial Flight Tracking and Weather Info for Istanbul Airport (IST/LTFM). Fan made website.">
+    <meta name="keywords" content="IST Airport, Flight Tracker, METAR, TAF, LTFM, Spotter Guide">
+    <meta name="author" content="IST Flight Watch">
     <meta name="google-adsense-account" content="ca-pub-2431689993523630">
-    <meta name="theme-color" content="#e74c3c">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#3498db"> <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>IGASTATUS | Istanbul Airport Flight Tracker and Live Air Traffic</title>
+    <title>IST Flight Watch | Unofficial Istanbul Airport Tracker</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-    <!-- DNS Prefetch & Preconnect for faster loading -->
     <link rel="dns-prefetch" href="https://api.checkwx.com">
     <link rel="dns-prefetch" href="https://fids.flightradar.live">
     <link rel="dns-prefetch" href="https://www.airnavradar.com">
     <link rel="dns-prefetch" href="https://embed.windy.com">
-    <link rel="dns-prefetch" href="https://www.liveatc.net">
     <link rel="dns-prefetch" href="https://widgets.skyscanner.net">
-    <link rel="dns-prefetch" href="https://www.igairport.aero">
-    <link rel="dns-prefetch" href="https://i.postimg.cc">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
-    <link rel="dns-prefetch" href="https://cdnjs.buymeacoffee.com">
-
+    
     <link rel="preconnect" href="https://api.checkwx.com" crossorigin>
     <link rel="preconnect" href="https://fids.flightradar.live" crossorigin>
 
-    <!-- Preload critical CSS -->
     <link rel="preload" href="css/style.min.css" as="style">
     <link rel="stylesheet" href="css/style.min.css">
-
-    <!-- Preload critical JavaScript -->
     <link rel="modulepreload" href="js/main.min.js">
     
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-B5MKS76S1B"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -45,34 +33,50 @@
         gtag('config', 'G-B5MKS76S1B');
     </script>
     
-    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2431689993523630" crossorigin="anonymous"></script>
     
-    <!-- CheckWX API - Defer Loading -->
     <script src="https://api.checkwx.com/widget?key=575d925deae5b5572edb19ebbe&refresh=15" type="text/javascript" defer></script>
+
+    <style>
+        .disclaimer-bar {
+            background-color: #e74c3c;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            position: relative;
+            z-index: 9999;
+        }
+        .nav-logo img { display: none; } /* Eski logo gizlendi */
+        .new-logo-icon { font-size: 24px; margin-right: 10px; }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <div class="disclaimer-bar">
+        ⚠️ UNOFFICIAL FAN SITE: This website is not affiliated with IGA Istanbul Airport Management or DHMI.
+    </div>
+
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="images/iga-logo.svg" alt="IGA Airport">
+                <span class="new-logo-icon">✈️</span>
                 <div class="logo-text">
-                    <span class="logo-title">IGASTATUS</span>
-                    <span class="logo-subtitle">Istanbul Airport</span>
+                    <span class="logo-title">IST FLIGHT WATCH</span>
+                    <span class="logo-subtitle">Unofficial Tracker</span>
                 </div>
                 <span class="status-badge">
-                    <span class="status-icon">✈️</span>
-                    <span class="status-text">Airport Operational</span>
+                    <span class="status-icon">📡</span>
+                    <span class="status-text">Live Tracking</span>
                 </span>
             </div>
             <div class="nav-stats">
                 <div class="stat-item">
-                    <span class="stat-label">Arrivals Today</span>
+                    <span class="stat-label">Arrivals</span>
                     <span class="stat-value" id="arrivals-count">---</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Departures Today</span>
+                    <span class="stat-label">Departures</span>
                     <span class="stat-value" id="departures-count">---</span>
                 </div>
                 <div class="stat-item">
@@ -83,18 +87,17 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-background">
             <picture>
                 <source srcset="images/hero-background.webp" type="image/webp">
-                <img src="images/hero-background.jpg" alt="Istanbul Airport - Turkish Airlines A321 Landing" loading="eager" decoding="async" fetchpriority="high" width="1279" height="853">
+                <img src="images/hero-background.jpg" alt="Istanbul Airport Plane Spotting" loading="eager" decoding="async" fetchpriority="high" width="1279" height="853">
             </picture>
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="hero-title">Istanbul Airport</h1>
-            <p class="hero-subtitle">Real-time Flight Information & Live Status | Istanbul, Turkey</p>
+            <h1 class="hero-title">Istanbul Airport Tracking</h1>
+            <p class="hero-subtitle">Unofficial Flight Information & Weather for Aviation Enthusiasts</p>
             <div class="hero-info">
                 <div class="info-card">
                     <span class="info-label">ICAO</span>
@@ -116,10 +119,8 @@
         </div>
     </section>
 
-    <!-- Main Content -->
     <main class="main-content">
 
-        <!-- Live Airport Activity Dashboard -->
         <section class="section activity-dashboard">
             <div class="container">
                 <div class="dashboard-grid">
@@ -130,12 +131,12 @@
                                 <div class="flight-stat">
                                     <span class="stat-icon">🛬</span>
                                     <span class="stat-value" id="hourly-arrivals">--</span>
-                                    <span class="stat-label">Arrivals/hr</span>
+                                    <span class="stat-label">Arr/hr</span>
                                 </div>
                                 <div class="flight-stat">
                                     <span class="stat-icon">🛫</span>
                                     <span class="stat-value" id="hourly-departures">--</span>
-                                    <span class="stat-label">Departures/hr</span>
+                                    <span class="stat-label">Dep/hr</span>
                                 </div>
                                 <div class="flight-stat">
                                     <span class="stat-icon">📡</span>
@@ -156,7 +157,7 @@
                     <div class="dashboard-card runway-card">
                         <div class="card-icon">🛬</div>
                         <div class="card-content">
-                            <div class="card-label">Active Runways</div>
+                            <div class="card-label">Est. Active Runways</div>
                             <div class="runway-visual">
                                 <div class="runway active" data-runway="35L">35L</div>
                                 <div class="runway active" data-runway="35R">35R</div>
@@ -168,7 +169,7 @@
                     <div class="dashboard-card congestion-card">
                         <div class="card-icon">🚦</div>
                         <div class="card-content">
-                            <div class="card-label">Congestion</div>
+                            <div class="card-label">Traffic</div>
                             <div class="card-value" id="congestion-level">Normal</div>
                         </div>
                     </div>
@@ -176,13 +177,12 @@
             </div>
         </section>
 
-        <!-- Live Flight Map Section -->
         <section class="section" id="flight-map">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Live Flight Tracking</h2>
+                    <h2 class="section-title">Live Air Traffic</h2>
                     <div class="section-divider"></div>
-                    <p class="section-subtitle">Real-time aircraft positions around Istanbul Airport</p>
+                    <p class="section-subtitle">Aircraft positions provided by AirNav Radar</p>
                 </div>
                 <div class="map-container lazy-load-container" data-src="https://www.airnavradar.com/?widget=1&z=10&lat=41.06911&lon=28.7419&lng=28.60673">
                     <div class="loading-placeholder">
@@ -193,13 +193,12 @@
             </div>
         </section>
 
-        <!-- METAR & TAF Section -->
         <section class="section" id="metar-taf">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">METAR & TAF Information</h2>
+                    <h2 class="section-title">Aviation Weather</h2>
                     <div class="section-divider"></div>
-                    <p class="section-subtitle">Current weather observations and forecasts for LTFM</p>
+                    <p class="section-subtitle">METAR & TAF Reports for LTFM</p>
                 </div>
                 <div class="weather-grid">
                     <div class="weather-card">
@@ -210,9 +209,6 @@
                             </a>
                         </div>
                         <div class="checkwx-container" data-type="METAR" data-station="LTFM"></div>
-                        <div class="weather-info">
-                            <p><small>Real-time meteorological report updated every hour</small></p>
-                        </div>
                     </div>
                     <div class="weather-card">
                         <div class="weather-header">
@@ -222,32 +218,17 @@
                             </a>
                         </div>
                         <div class="checkwx-container" data-type="TAF" data-station="LTFM"></div>
-                        <div class="weather-info">
-                            <p><small>Terminal Aerodrome Forecast for the next 24-30 hours</small></p>
-                        </div>
                     </div>
-                </div>
-                <div class="weather-tools">
-                    <a href="https://www.aviationweather.gov/metar" target="_blank" class="tool-link">
-                        <span>🌐</span> Aviation Weather Center
-                    </a>
-                    <a href="https://www.meteoblue.com/en/weather/aviation/istanbul_turkey_745044" target="_blank" class="tool-link">
-                        <span>☁️</span> MeteoBlue Aviation
-                    </a>
-                    <a href="https://en.allmetsat.com/metar-taf/turkey.php?icao=LTFM" target="_blank" class="tool-link">
-                        <span>🛰️</span> AllMetSat
-                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Weather Section -->
         <section class="section" id="weather">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Weather Conditions</h2>
+                    <h2 class="section-title">Weather Radar</h2>
                     <div class="section-divider"></div>
-                    <p class="section-subtitle">Live weather radar and wind conditions</p>
+                    <p class="section-subtitle">Wind and Gust Conditions</p>
                 </div>
                 <div class="weather-map lazy-load-container" data-src="https://embed.windy.com/embed2.html?lat=41.264&lon=28.726&zoom=11&level=surface&overlay=gust&menu=&message=true&marker=true&calendar=&pressure=true&type=map&location=coordinates&detail=true&detailLat=41.261&detailLon=28.711&metricWind=default&metricTemp=default&radarRange=-1">
                     <div class="loading-placeholder">
@@ -258,13 +239,12 @@
             </div>
         </section>
 
-        <!-- Arrivals & Departures Section -->
         <section class="section" id="flights">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Arrivals & Departures</h2>
+                    <h2 class="section-title">Flight Board</h2>
                     <div class="section-divider"></div>
-                    <p class="section-subtitle">Live flight information boards</p>
+                    <p class="section-subtitle">Live status via 3rd party data</p>
                 </div>
                 <div class="flights-grid">
                     <div class="flight-card">
@@ -293,62 +273,11 @@
             </div>
         </section>
 
-        <!-- Charts Section -->
-        <section class="section" id="charts">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Airport Charts & Navigation</h2>
-                    <div class="section-divider"></div>
-                    <p class="section-subtitle">Official navigation charts for LTFM</p>
-                </div>
-                <div class="charts-grid">
-                    <a href="charts/LTFMCHART2024.pdf" class="chart-card" target="_blank">
-                        <div class="chart-icon">📄</div>
-                        <h3>LTFM Charts 2024</h3>
-                        <p>Current navigation charts for Istanbul Airport</p>
-                        <div class="chart-badge">Latest</div>
-                    </a>
-                    <a href="charts/LTFMCHART2023.pdf" class="chart-card" target="_blank">
-                        <div class="chart-icon">📄</div>
-                        <h3>LTFM Charts 2023</h3>
-                        <p>Previous year navigation charts for reference</p>
-                        <div class="chart-badge">Archive</div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ATC Section -->
-        <section class="section" id="atc">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Live ATC Audio</h2>
-                    <div class="section-divider"></div>
-                    <p class="section-subtitle">LTFM Ground & Tower Communications</p>
-                </div>
-                <div class="atc-container">
-                    <div class="atc-card">
-                        <div class="atc-info">
-                            <h3>🎧 Ground/Tower</h3>
-                            <p>Listen to live air traffic control communications</p>
-                            <div class="frequency-info">
-                                <span class="freq-label">Frequency:</span>
-                                <span class="freq-value">Available on LiveATC</span>
-                            </div>
-                        </div>
-                        <embed src="https://www.liveatc.net/embed/feed/ltba_s-html5.html" width="100%" height="150">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Flight Search Section -->
         <section class="section" id="search">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Search & Book Flights</h2>
+                    <h2 class="section-title">Flight Search</h2>
                     <div class="section-divider"></div>
-                    <p class="section-subtitle">Find the best deals for your next adventure</p>
                 </div>
                 <div class="search-container">
                     <div data-skyscanner-widget="SearchWidget" data-origin-geo-lookup="true"></div>
@@ -359,48 +288,46 @@
 
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="tribute-footer">
                 <div class="tribute-image-small">
                     <picture>
                         <source srcset="images/ataturk-aviation.webp" type="image/webp">
-                        <img src="images/ataturk-aviation.jpg" alt="Mustafa Kemal Atatürk - Aviation Pioneer" loading="lazy" width="200" height="250">
+                        <img src="images/ataturk-aviation.jpg" alt="Mustafa Kemal Atatürk" loading="lazy" width="200" height="250">
                     </picture>
                 </div>
                 <div class="tribute-text-small">
                     <p><strong>Mustafa Kemal Atatürk (1881-1938)</strong></p>
-                    <p class="tribute-quote">"İstikbal göklerdedir" / "The future is in the skies"</p>
-                    <p>Founder of the Republic of Turkey and visionary leader who recognized the importance of aviation for Turkey's future. His words continue to inspire Turkish aviation and guide Istanbul Airport.</p>
-                    <p class="tribute-heart">Forever in our hearts ❤️</p>
+                    <p class="tribute-quote">"İstikbal göklerdedir"</p>
                 </div>
             </div>
             <div class="footer-content">
                 <div class="footer-brand">
-                    <h3>IGASTATUS</h3>
-                    <p>Istanbul Airport Live Status</p>
+                    <h3>IST Flight Watch</h3>
+                    <p>Unofficial Status Page</p>
                 </div>
                 <div class="footer-love">
-                    <span>Forever in Love ❤️ LTBA</span>
+                    <span>Aviation Fan Site ✈️</span>
                 </div>
                 <div class="footer-links">
                     <a href="https://github.com/igastatus/igastatus-ai" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                           <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                         </svg>
                     </a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>©2025 IGASTATUS. All Rights Reserved</p>
-                <p class="footer-disclaimer">Flight data provided by third-party APIs. For official information, please visit <a href="https://www.igairport.aero/" target="_blank">Istanbul Airport</a></p>
+                <p>©2026 IST Flight Watch. All Rights Reserved.</p>
+                <p class="footer-disclaimer">
+                    DISCLAIMER: This is a non-commercial fan website. It is NOT affiliated with, endorsed by, or connected to IGA Istanbul Airport or DHMI. All data is for informational purposes only.
+                </p>
             </div>
         </div>
     </footer>
 
-    <!-- Buy Me a Coffee Widget -->
-    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="anldrms" data-description="Support me on Buy me a coffee!" data-message="Hi, I'm Anıl! I run igastatus.com and sawstatus.com with a passion for aviation. You can support me by buying a coffee! ☕✈️" data-color="#40DCA5" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="anldrms" data-description="Support me on Buy me a coffee!" data-message="Hi, I'm Anıl! I run this aviation fan page. You can support me by buying a coffee! ☕✈️" data-color="#40DCA5" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
     <script src="js/main.min.js"></script>
 </body>
